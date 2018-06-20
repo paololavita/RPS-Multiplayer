@@ -1,4 +1,3 @@
-// Initialize Firebase
 var config = {
     apiKey: "AIzaSyB0yboR8unkfAJZWx6rLfEa_NiFPkr0a6s",
     authDomain: "rockpaperscissors-fe96f.firebaseapp.com",
@@ -9,7 +8,6 @@ var config = {
   };
 firebase.initializeApp(config);
 
-//Firebase reference vars
 var ref = firebase.database().ref();
 var playersRef = firebase.database().ref("players");
 var p1Ref = firebase.database().ref("players/1");
@@ -18,18 +16,18 @@ var chat = firebase.database().ref("chat");
 var connectedRef = firebase.database().ref(".info/connected");
 var connectionsRef = firebase.database().ref("connections");
 
-//Local vars
+
 var playerName;
 var playerNum;
-var playerKey; // unique to session client
+var playerKey; 
 var turn = 1;
 var timeDelay = 4000;
 
-//Functions
+
 var displayChoices = function(pNum) {
 	if(playerNum === pNum) {
-		// console.log("display " + pNum);
-		var r = $("<div>").text("Rock").attr("data-choice", "Rock").addClass("p" + pNum + "-choice");
+		
+		var r = $("<div>").text("Da Rock").attr("data-choice", "Da Rock").addClass("p" + pNum + "-choice");
 		var p = $("<div>").text("Paper").attr("data-choice", "Paper").addClass("p" + pNum + "-choice");
 		var s = $("<div>").text("Scissors").attr("data-choice", "Scissors").addClass("p" + pNum + "-choice");
 		var rps = $("<div>").append(r, p, s);
@@ -40,7 +38,7 @@ var displayChoices = function(pNum) {
 var displayGameMessage = function(type) {
 	if(playerNum === 1) {
 		if(type === "yourTurn") {
-			$("#game-message").text("It's Your Turn!");
+			$("#game-message").text("Your Turn!");
 			$("#game-message").show();
 		} else if(type === "waitingFor") {
 			p2Ref.once("value", function(snap) {
@@ -52,7 +50,7 @@ var displayGameMessage = function(type) {
 		}
 	} else if(playerNum === 2) {
 		if(type === "yourTurn") {
-			$("#game-message").text("It's Your Turn!");
+			$("#game-message").text("Your Turn!");
 			$("#game-message").show();
 		} else if(type === "waitingFor") {
 			p1Ref.once("value", function(snap) {
@@ -65,7 +63,7 @@ var displayGameMessage = function(type) {
 	}
 }
 
-//Player enter event listener
+
 $("#name-submit-button").click(function(e) {
 	e.preventDefault();
 	playerName = $("#player-name").val().trim();
@@ -111,7 +109,7 @@ $("#name-submit-button").click(function(e) {
 		$("#you-are-message").show();
 		$("#enter-game-panel").hide();
 
-		var message = " [ HAS ENTERED THE GAME! ]";
+		var message = " [ Has just entered the game! ]";
 		var time = new Date().toLocaleString("en-US", {hour: "numeric", minute: "numeric", second: "numeric"});
 
 		chat.push({
@@ -122,7 +120,7 @@ $("#name-submit-button").click(function(e) {
 	});
 });
 
-//Firebase event listener for name values
+
 p1Ref.child("name").on("value", function(snap) {
 	if(snap.exists() === true) {
 		$("#p1-name").text(snap.val());
@@ -139,7 +137,6 @@ p2Ref.child("name").on("value", function(snap) {
 	}
 });
 
-// Firebase listener for win/loss values
 p1Ref.child("wins").on("value", function(snap) {
 	if(snap.exists() === true) {
 		$("#p1-wins").text(snap.val());
@@ -164,34 +161,33 @@ p2Ref.child("losses").on("value", function(snap) {
 	}
 });
 
-// hide new player input for 3rd parties
+
 playersRef.on("value", function(snap) {
 	if(snap.child(1).exists() === true && snap.child(2).exists() === true) {
 		$("#enter-game-panel").hide();
 	}
 });
 
-//Firebase listener to render choices for p1 as turn value is created/changed
 ref.child("turn").on("value", function(snap) {
-	//right after p2 enters game and turn = 1
+	
 	if(snap.val() === 1) {
-		//display p1 choices
+		
 		displayChoices(1);	
 	}
 });
 
-// Event listener for rendering choices for p2
+
 playersRef.on("value", function(snap) {
 	if(snap.child(1).child("choice").exists() === true && snap.child(2).child("choice").exists() === false) {
 		
-		//display p2 choices
+		
 		displayChoices(2);
 	}
 });
 
-// Event listener for game message
+
 playersRef.on("value", function(snap) {
-	//display game message when both players exist and choices alternate
+	
 	if(playerNum === 1) {
 		if(snap.child(2).exists() === true && snap.child(1).child("choice").exists() === false) {
 			displayGameMessage("yourTurn");
@@ -207,7 +203,7 @@ playersRef.on("value", function(snap) {
 	}
 });
 
-//Event listener for p1 clicking choice
+
 $(document).on("click", ".p1-choice", function() {
 	var p1Choice = $(this).attr("data-choice");
 	p1Ref.update({
@@ -217,7 +213,7 @@ $(document).on("click", ".p1-choice", function() {
 	$("#p1-choices").text(p1Choice);
 });
 
-//Event listener for p2 clicking choice
+
 $(document).on("click", ".p2-choice", function() {
 	var p2Choice = $(this).attr("data-choice");
 	p2Ref.update({
@@ -227,9 +223,9 @@ $(document).on("click", ".p2-choice", function() {
 	$("#p2-choices").text(p2Choice);
 });
 
-//Firebase listener after both players have made choices
+
 playersRef.on("value", function(snap) {
-	//only proceed to outcome if both players exist and both have choices
+	
 	if(snap.child(1).exists() === true && snap.child(2).exists() === true && snap.child(1).child("choice").exists() === true && snap.child(2).child("choice").exists() === true) {
 
 		var p1Choice = snap.val()[1].choice;
@@ -242,19 +238,19 @@ playersRef.on("value", function(snap) {
 		var p2Wins = snap.val()[2].wins;
 		var p1Losses = snap.val()[1].losses;
 		var p2Losses = snap.val()[2].losses;
-		// console.log(p1Choice, p2Choice);
+		
 
-		//reveal both players choices
+		
 		$("#p1-choices").text(p1Choice);
 		$("#p2-choices").text(p2Choice);
 
-		if(p1Choice === "Rock" && p2Choice === "Rock") {
+		if(p1Choice === "Da Rock" && p2Choice === "Da Rock") {
 			$("#outcome").text("Tie Game!");
 			turn++;
 			ref.update({
 				turn: turn
 			});
-		} else if(p1Choice === "Rock" && p2Choice === "Paper") {
+		} else if(p1Choice === "Da Rock" && p2Choice === "Paper") {
 			p1Losses++;
 			p1Ref.update({
 				losses: p1Losses
@@ -270,7 +266,7 @@ playersRef.on("value", function(snap) {
 			ref.update({
 				turn: turn
 			});
-		} else if(p1Choice === "Rock" && p2Choice === "Scissors") {
+		} else if(p1Choice === "Da Rock" && p2Choice === "Scissors") {
 			p1Wins++;
 			p1Ref.update({
 				wins: p1Wins
@@ -286,7 +282,7 @@ playersRef.on("value", function(snap) {
 			ref.update({
 				turn: turn
 			});
-		} else if(p1Choice === "Paper" && p2Choice === "Rock") {
+		} else if(p1Choice === "Paper" && p2Choice === "Da Rock") {
 			p1Wins++;
 			p1Ref.update({
 				wins: p1Wins
@@ -324,7 +320,7 @@ playersRef.on("value", function(snap) {
 			ref.update({
 				turn: turn
 			});
-		} else if(p1Choice === "Scissors" && p2Choice === "Rock") {
+		} else if(p1Choice === "Scissors" && p2Choice === "Da Rock") {
 			p1Losses++;
 			p1Ref.update({
 				losses: p1Losses
@@ -364,7 +360,7 @@ playersRef.on("value", function(snap) {
 			});
 		}
 
-		//update win & loss count
+		
 		$("#p1-wins").text(p1Wins);
 		$("#p2-wins").text(p2Wins);
 		$("#p1-losses").text(p1Losses);
@@ -379,7 +375,7 @@ playersRef.on("value", function(snap) {
 	}
 });
 
-//Firebase listener for messages
+
 chat.on("child_added", function(snap) {
 	var name = snap.val().name;
 	var time = snap.val().time;
@@ -393,7 +389,6 @@ chat.on("child_added", function(snap) {
 	$("#message-view").animate({ scrollTop: $("#message-view")[0].scrollHeight}, 500);
 });
 
-//Send button for chat click even listener
 $("#send-button").on("click", function(e) {
 	e.preventDefault();
 
@@ -413,7 +408,7 @@ $("#send-button").on("click", function(e) {
 	$("#chat-message").val("");
 });
 
-// Firebase connection listener
+
 connectedRef.on("value", function(snap) {
 	if(snap.val()) {
 		var user = connectionsRef.push(true);
@@ -443,7 +438,7 @@ connectionsRef.on("child_removed", function(snap) {
 		$("#p2-choices").empty();
 		$("#game-message").empty();
 
-		var message = " [ HAS LEFT THE GAME! ]";
+		var message = " [ Has left the current game! ]";
 		console.log("p1 has left");
 		var time = new Date().toLocaleString("en-US", {hour: "numeric", minute: "numeric", second: "numeric"});
 
@@ -477,7 +472,7 @@ connectionsRef.on("child_removed", function(snap) {
 		$("#p2-choices").empty();
 		$("#game-message").empty();
 
-		var message = " [ HAS LEFT THE GAME! ]";
+		var message = " [ Has left the current game! ]";
 		console.log("p2 has left");
 		var time = new Date().toLocaleString("en-US", {hour: "numeric", minute: "numeric", second: "numeric"});
 

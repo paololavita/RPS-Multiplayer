@@ -9,16 +9,16 @@
 	<div class="container">
 		
 		<div id="header">
-			<img src="http://via.placeholder.com/140x100">
-			<img src="http://via.placeholder.com/140x100">
-			<img src="http://via.placeholder.com/140x100">
+			<img src="assets/images/da_rock.jpeg" width="250" height="250">
+			<img src="assets/images/paper.jpeg" width="250" height="250">
+			<img src="assets/images/scissors.jpeg" width="250" height="250">
 		</div>
 
-		<h1 class="text-center">Rock, Paper, Scissors</h1>
+		<h1 class="text-center">Da Rock, Paper, Scissors</h1>
 
 		<div id="enter-game-panel" class="panel panel-default">
 		  <div class="panel-heading">
-		    <h3 class="panel-title">Would you like to play?</h3>
+		    <h3 class="panel-title">Would you like to play a game?</h3>
 		  </div>
 		  <div class="panel-body">
 		    <form id="player-form" class="form-group">
@@ -29,18 +29,18 @@
 		</div>
 
 		<div id="you-are-message" class="alert alert-success" role="alert">
-			Hi, <span id="p-name"></span>! You are Player <span id="p-num"></span><span id="game-message"></span>
+			Hello, <span id="p-name"></span>! You are Player <span id="p-num"></span><span id="game-message"></span>
 		</div>
 
 		<div class="panel panel-default">
 		  <div class="panel-heading">
-		    <h3 class="panel-title">Play</h3>
+		    <h3 class="panel-title">Playroom</h3>
 		  </div>
 		  <div class="panel-body">
 		    	<div class="game-section" id="p1-section">
-		    		<div id="p1-name" class="p-not-entered">Waiting for Player 1</div>
+		    		<div id="p1-name" class="p-not-entered">Waiting - Player 1</div>
 		    		<div id="p1-choices"></div>
-		    		<div id="p1-stats">Wins: <span id="p1-wins">0</span> | Losses: <span id="p1-losses">0</span></div>
+		    		<div id="p1-stats">Win: <span id="p1-wins">0</span> | Lose: <span id="p1-losses">0</span></div>
 		    	</div>
 		    	<div class="game-section">
 		    		<div id="outcome-container">
@@ -48,17 +48,17 @@
 		    		</div>
 		    	</div>
 		    	<div class="game-section" id="p2-section">
-		    		<div id="p2-name" class="p-not-entered">Waiting for Player 2</div>
+		    		<div id="p2-name" class="p-not-entered">Waiting - Player 2</div>
 		    		<div id="p2-choices"></div>
-		    		<div id="p1-stats">Wins: <span id="p2-wins">0</span> | Losses: <span id="p2-losses">0</span></div>
+		    		<div id="p1-stats">Win: <span id="p2-wins">0</span> | Lose: <span id="p2-losses">0</span></div>
 		    	</div>
 		    </div>
 		  </div>
 
-		    <!-- Chat -->
+	
 		    <div class="panel panel-default">
 		      <div class="panel-heading">
-		        <h3 class="panel-title">Game Chat</h3>
+		        <h3 class="panel-title">Chatroom</h3>
 		      </div>
 		      <div class="panel-body">
 		        <div class="chat-container">
@@ -72,16 +72,14 @@
 			</div>
 		</div>
 
-	<!-- jQuery -->
+	
 	<script
 	  src="https://code.jquery.com/jquery-3.1.1.min.js"
 	  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
 	  crossorigin="anonymous"></script>
-
-	<!-- Firebase -->
+	
 	<script src="https://www.gstatic.com/firebasejs/3.7.1/firebase.js"></script>
-
-	<!-- Main js file / logic -->
+	
 	<script src="assets/javascript/javascript.js"></script>
 </body>
 </html>
